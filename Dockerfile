@@ -4,14 +4,14 @@
 # FROM golang:1.15.7-buster
 FROM golang:1.14
 
+# Copy contents
 WORKDIR $GOPATH/src/github.com/wlawt/goprojects/blog
 COPY . .
 
+# Install dependencies
 RUN go get -d -v ./...
 RUN go install -v ./...
-
 RUN go get -u github.com/wlawt/goprojects/blog
-
 RUN go build -o ./blog .
 
 EXPOSE 50051
