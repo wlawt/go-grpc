@@ -3,10 +3,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"google.golang.org/grpc"
 	"google.golang.org/status"
 	"github.com/wlawt/goprojects/blog/blogpb"
-	"log"
 )
 
 func main() {
@@ -24,6 +24,10 @@ func main() {
 
 	c := blogpb.NewBlogServiceClient(cc)
 
+
+	/*
+		Examples of sending requests to the server
+	*/
 	// create blog
 	fmt.Println("Creating the blog")
 	blog := &blogpb.Blog{
@@ -38,6 +42,7 @@ func main() {
 	}
 	fmt.Printf("Blog has been created: %v", createBlogRes)
 	blogID := createBlogRes.GetBlog().GetId()
+
 
 	// read blog
 	fmt.Println("Reading the blog")
