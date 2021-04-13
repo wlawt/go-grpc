@@ -5,12 +5,12 @@ import (
 	"net"
 	"log"
 	"context"
-	"github.com/wlawt/goprojects/blog/blogpb"
-	"github.com/mongodb/mongo-go-driver"
-	"google.golang.org/grpc"
-	"google.golang.org/status"
 	"os"
 	"os/signal"
+	"google.golang.org/grpc"
+	"google.golang.org/status"
+	"github.com/wlawt/goprojects/blog/blogpb"
+	"github.com/mongodb/mongo-go-driver"
 )
 
 var collection *mongo.Collection
@@ -24,6 +24,9 @@ type blogItem struct {
 	Title 		string						`bson:"title"`
 }
 
+// CreateBlog(ctx, req) produces a CreateBlogResponse by consuming
+//   a context, ctx and a request, req that contains the details
+//   for the metadata, and produces an error otherwise.
 func (*server) CreateBlog(ctx context.Context, req *blogpb.CreateBlogRequest) (*blogpb.CreateBlogResponse, error) {
 	blog := req.GetBlog()
 	data := blogItem{
@@ -58,6 +61,9 @@ func (*server) CreateBlog(ctx context.Context, req *blogpb.CreateBlogRequest) (*
 	}, nil
 }
 
+// ReadBlog(ctx, req) produces a ReadBlogResponse by consuming
+//   a context, ctx and a request, req that contains the details
+//   for the metadata, and produces an error otherwise.
 func (*server) ReadBlog(ctx context.Context, req *blogpb.ReadBlogRequest) (*blogpb.ReadBlogResponse, error) {
 	blogId = req.GetBlog()
 	oid, err := objectid.FromHex(blogId)
@@ -85,6 +91,10 @@ func (*server) ReadBlog(ctx context.Context, req *blogpb.ReadBlogRequest) (*blog
 	}, nil
 }
 
+// dataToBlogPb(data) helper function that creates a Blog object
+//   by consuming a blogItem, data.
+// requires: data to be not empty
+// time: O(1)
 func dataToBlogPb(data *blogItem) *blogpb.Blog {
 	return &blogpb.Blog{
 		Id: 			data.ID.Hex(),
@@ -94,6 +104,9 @@ func dataToBlogPb(data *blogItem) *blogpb.Blog {
 	}
 }
 
+// UpdateBlog(ctx, req) produces a UpdateBlogResponse by consuming
+//   a context, ctx and a request, req that contains the details
+//   for the metadata, and produces an error otherwise.
 func (*server) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogRequest) (*blogpb.UpdateBlogResponse, error) {
 	blog := req.GetBlog()
 	oid, err := objectid.FromHex(blog.GetId())
@@ -133,6 +146,9 @@ func (*server) UpdateBlog(ctx context.Context, req *blogpb.UpdateBlogRequest) (*
 	}, nil
 }
 
+// DeleteBlog(ctx, req) produces a DeleteBlogResponse by consuming
+//   a context, ctx and a request, req that contains the details
+//   for the metadata, and produces an error otherwise.
 func (*server) DeleteBlog(ctx context.Context, req *blogpb.DeleteBlogRequest) (*blogpb.DeleteBlogResponse, error) {
 	oid, err := objectid.FromHex(req.GetBlogId())
 	if err != nil {
@@ -161,6 +177,9 @@ func (*server) DeleteBlog(ctx context.Context, req *blogpb.DeleteBlogRequest) (*
 	return &blogpb.DeleteBlogResponse{BlogId: req.GetBlogId()}, nil
 } 
 
+// ListBlog(ctx, req) produces a ListBlogResponse by consuming
+//   a context, ctx and accepts a server streaming request and 
+//   produces an error otherwise.
 func (*server) ListBlog(req *blogpb.ListBlogRequest, stream blogpb.BlogService_ListBlogServer) error {
 	// Get all blogs
 	cur, err := collection.Find(context.Background(), nil)
@@ -202,7 +221,7 @@ func main() {
 	// if crash, we get file name and line num
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	
-	// mongodb
+	// connect to mongodb
 	fmt.Println("Connecting to MongoDB...")
 	client, err := mongo.NewClient("mongodb://localhost:27017")
 	if err != nil { log.Fatal(err) }
@@ -211,6 +230,7 @@ func main() {
 
 	collection = client.Database("mydb").Collection("blog")
 
+	// start server
 	fmt.Println("Blog Service Started")
 	lis, err := net.Listen("tcp", "0.0.0.0:50051")
 	if err != nil {
@@ -236,6 +256,7 @@ func main() {
 	// block until a signal is received
 	<-ch
 
+	// Stop services
 	fmt.Println("Stopping the server...")
 	s.Stop()
 	fmt.Println("Stopping the listener...")
