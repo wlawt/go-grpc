@@ -51,3 +51,7 @@ problems when dealing with millions of requests per second.
 For data intensive applications, programs can establish a persistant
 connection with the client/server, which will save ultimately 
 save computation and energy resources.
+
+## Improvements
+- Add test cases
+- Integrate CI testing
