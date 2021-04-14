@@ -55,3 +55,4 @@ save computation and energy resources.
 ## Improvements
 - Add test cases
 - Integrate CI testing
+- Modularize CRUD functions in [`server.go`](https://github.com/wlawt/go-grpc/blob/master/blog_server/server.go)
