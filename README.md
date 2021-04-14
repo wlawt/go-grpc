@@ -11,6 +11,15 @@ and Docker.
 - MongoDB 4.4
 - Docker
 
+## Running
+```go
+// Client
+go run blog_client/client.go
+
+// Server
+go run blog_client/server.go
+```
+
 ## What is gRPC
 
 Remote procedure calls (gRPC) uses HTTP2 to make API requests
