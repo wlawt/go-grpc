@@ -6,7 +6,10 @@ and Docker.
 
 ## Requirements
 - go 1.14
-- 
+- protobuf (https://github.com/golang/protobuf)
+- gRPC (https://github.com/grpc/grpc-go)
+- MongoDB 4.4
+- Docker
 
 ## What is gRPC
 
