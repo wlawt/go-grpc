@@ -1,6 +1,8 @@
 # Go gRPC
 
 Creating and making API calls with gRPC and protobuffers. 
+This project is basically implementing a CRUD API with MongoDB 
+and Docker. 
 
 ## What is gRPC
 
