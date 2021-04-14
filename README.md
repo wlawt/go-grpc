@@ -1,8 +1,8 @@
-## Go gRPC
+# Go gRPC
 
 Creating and making API calls with gRPC and protobuffers. 
 
-### What is gRPC
+## What is gRPC
 
 Remote procedure calls (gRPC) uses HTTP2 to make API requests
 compared to making RESTful API calls that relies on HTTP1. 
