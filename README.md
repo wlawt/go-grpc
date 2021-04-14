@@ -4,6 +4,10 @@ Creating and making API calls with gRPC and protobuffers.
 This project is basically implementing a CRUD API with MongoDB 
 and Docker. 
 
+## Requirements
+- go 1.14
+- 
+
 ## What is gRPC
 
 Remote procedure calls (gRPC) uses HTTP2 to make API requests
