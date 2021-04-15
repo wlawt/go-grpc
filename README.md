@@ -1,4 +1,4 @@
-# Go gRPC
+# Tulip - Golang with gRPC
 
 Creating and making API calls with gRPC and protobuffers. 
 This project is basically implementing a CRUD API with MongoDB 
