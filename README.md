@@ -20,6 +20,14 @@ go run blog_client/client.go
 go run blog_client/server.go
 ```
 
+## Project Structure
+```
+root/
+  blog_client/      # All things related to client
+  blog_server/      # All things related to server
+  blogpb/           # Protobuf configs
+```
+
 ## What is gRPC
 
 Remote procedure calls (gRPC) uses HTTP2 to make API requests
